@@ -1,30 +1,27 @@
 package time.capsule.api.core.usecase;
 
-import time.capsule.api.core.domain.TimeCapsuleDomain;
-import time.capsule.api.core.gateway.TimeCapsuleMessagingGateway;
-import time.capsule.api.core.gateway.TimeCapsuleRepositoryGateway;
-import time.capsule.api.core.validator.TimeCapsuleValidator;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import time.capsule.api.core.domain.TimeCapsuleEntity;
+import time.capsule.api.core.gateway.messaging.TimeCapsuleMessagingGateway;
+import time.capsule.api.core.gateway.repository.TimeCapsuleRepositoryGateway;
+import time.capsule.api.core.usecase.validators.TimeCapsuleValidator;
 
+@Service
+@RequiredArgsConstructor
 public class TimeCapsuleSendUseCase {
 
     private final TimeCapsuleValidator timeCapsuleValidator;
     private final TimeCapsuleRepositoryGateway timeCapsuleRepositoryGateway;
     private final TimeCapsuleMessagingGateway timeCapsuleMessagingGateway;
 
-    public TimeCapsuleSendUseCase(TimeCapsuleRepositoryGateway timeCapsuleRepositoryGateway,
-                                  TimeCapsuleMessagingGateway timeCapsuleMessagingGateway) {
-        this.timeCapsuleRepositoryGateway = timeCapsuleRepositoryGateway;
-        this.timeCapsuleMessagingGateway = timeCapsuleMessagingGateway;
-        this.timeCapsuleValidator = new TimeCapsuleValidator();
-    }
-
-    public TimeCapsuleDomain send(TimeCapsuleDomain timeCapsule) {
+    public Long send(TimeCapsuleEntity timeCapsule) {
         timeCapsuleValidator.validateSend(timeCapsule);
 
-        TimeCapsuleDomain timePersisted = timeCapsuleRepositoryGateway.save(timeCapsule);
+        TimeCapsuleEntity timePersisted = timeCapsuleRepositoryGateway.save(timeCapsule);
         timeCapsuleMessagingGateway.send(timePersisted);
 
-        return timePersisted;
+        return timePersisted.getId();
     }
 
 }

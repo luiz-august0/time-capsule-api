@@ -1,13 +1,15 @@
-package time.capsule.api.core.validator;
+package time.capsule.api.core.usecase.validators;
 
-import time.capsule.api.core.domain.TimeCapsuleDomain;
+import org.springframework.stereotype.Component;
+import time.capsule.api.core.domain.TimeCapsuleEntity;
 import time.capsule.api.core.util.DateUtil;
 import time.capsule.api.core.util.StringUtil;
 import time.capsule.api.infrastructure.exception.exceptions.ValidatorException;
 
+@Component
 public class TimeCapsuleValidator {
 
-    public void validateSend(TimeCapsuleDomain timeCapsule) {
+    public void validateSend(TimeCapsuleEntity timeCapsule) {
         validateEmail(timeCapsule.getEmail());
 
         if (StringUtil.isNullOrEmpty(timeCapsule.getMessage())) {
