@@ -2,6 +2,8 @@ package time.capsule.api.core.usecase;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import time.capsule.api.core.domain.TimeCapsuleEntity;
 import time.capsule.api.core.gateway.messaging.TimeCapsuleMessagingGateway;
 import time.capsule.api.core.gateway.repository.TimeCapsuleRepositoryGateway;
@@ -15,13 +17,12 @@ public class TimeCapsuleSendUseCase {
     private final TimeCapsuleRepositoryGateway timeCapsuleRepositoryGateway;
     private final TimeCapsuleMessagingGateway timeCapsuleMessagingGateway;
 
-    public Long send(TimeCapsuleEntity timeCapsule) {
+    @Transactional
+    public void send(TimeCapsuleEntity timeCapsule) {
         timeCapsuleValidator.validateSend(timeCapsule);
 
-        TimeCapsuleEntity timePersisted = timeCapsuleRepositoryGateway.save(timeCapsule);
-        timeCapsuleMessagingGateway.send(timePersisted);
-
-        return timePersisted.getId();
+        timeCapsuleRepositoryGateway.save(timeCapsule);
+        timeCapsuleMessagingGateway.send(timeCapsule.getId());
     }
 
 }

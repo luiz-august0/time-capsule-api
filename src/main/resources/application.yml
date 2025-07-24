@@ -23,8 +23,18 @@ spring:
     username: timecapsule
     password: timecapsule
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 3
+    topics:
+      time-capsule-send: time-capsule-send
+
 server:
-  port: 8080
+  port: 8081
   servlet:
     context-path: /
   http2:

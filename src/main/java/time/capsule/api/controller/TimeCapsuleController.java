@@ -19,8 +19,8 @@ public class TimeCapsuleController {
     private final TimeCapsuleGetByEmailUseCase timeCapsuleGetByEmailUseCase;
 
     @PostMapping("/send")
-    public Long send(@RequestBody TimeCapsuleRecord timeCapsuleRecord) {
-        return timeCapsuleSendUseCase.send(TimeCapsuleMapper.recordToEntity(timeCapsuleRecord));
+    public void send(@RequestBody TimeCapsuleRecord timeCapsuleRecord) {
+        timeCapsuleSendUseCase.send(TimeCapsuleMapper.recordToEntity(timeCapsuleRecord));
     }
 
     @GetMapping("/get-by-email")

@@ -44,4 +44,20 @@ public class TimeCapsuleEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
+    public TimeCapsuleEntity(Long id, String email, String message, String iaQuestion, String iaAnswerNow,
+            String iaAnswerFuture, Date dateToSend, Date sentDate, Date createdAt) {
+        this.id = id;
+        this.email = email;
+        this.message = message;
+        this.iaQuestion = iaQuestion;
+        this.iaAnswerNow = iaAnswerNow;
+        this.iaAnswerFuture = iaAnswerFuture;
+        this.dateToSend = dateToSend;
+        this.sentDate = sentDate;
+        this.createdAt = createdAt;
+    }
+    
+    public TimeCapsuleEntity() {
+    }
+
 }
