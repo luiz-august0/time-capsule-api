@@ -20,6 +20,14 @@ public class TimeCapsuleValidator {
             throw new ValidatorException("Mensagem da capsula deve ser maior que 5 caracteres");
         }
 
+        if (StringUtil.isNullOrEmpty(timeCapsule.getIaQuestion())) {
+            throw new ValidatorException("Pergunta para IA é obrigatória");
+        }
+
+        if (timeCapsule.getIaQuestion().length() < 5) {
+            throw new ValidatorException("Pergunta para IA deve ser maior que 5 caracteres");
+        }
+
         if (timeCapsule.getDateToSend() == null) {
             throw new ValidatorException("Data da capsula é obrigatória");
         }
